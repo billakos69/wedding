@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ο Γάμος μας</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: radial-gradient(circle at top, #f8e1e7, #f3cfd6, #e8bfc8);
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    overflow: hidden;
+    color: #5e3c47;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.names {
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-family: 'Playfair Display', serif;
+}
+
+.vinyl {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #111 40%, #000 60%);
+    position: relative;
+    animation: spin 4s linear infinite;
+    animation-play-state: paused;
+    box-shadow: 0 0 40px rgba(0,0,0,0.4);
+}
+
+.vinyl::before {
+    content: "";
+    position: absolute;
+    width: 105px;
+    height: 105px;
+    background-image: url("photo.jpg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 5px solid #fff;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.controls {
+    margin-top: 25px;
+}
+
+button {
+    background-color: #c48b9f;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #a96c82;
+    transform: scale(1.05);
+}
+
+.message {
+    margin-top: 20px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Σε περιπτώση που βαριέσαι ακου </h1>
+<div class="names">Σμαρώ & Σταύρος</div>
+
+<div class="vinyl" id="record"></div>
+
+<div class="controls">
+    <button onclick="toggleMusic()" id="playBtn">▶ Play</button>
+</div>
+
+
+<audio id="music" autoplay>
+    <source src="Locomondo.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const audio = document.getElementById("music");
+const record = document.getElementById("record");
+const button = document.getElementById("playBtn");
+
+function updateButton() {
+    if (audio.paused) {
+        button.innerHTML = "▶ Play";
+        record.style.animationPlayState = "paused";
+    } else {
+        button.innerHTML = "❚❚ Pause";
+        record.style.animationPlayState = "running";
+    }
+}
+
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play();
+    } else {
+        audio.pause();
+    }
+    updateButton();
+}
+
+audio.onplaying = updateButton;
+audio.onpause = updateButton;
+
+window.addEventListener("load", function() {
+    audio.play().then(updateButton).catch(() => {});
+});
+</script>
+
+</body>
+</html>
